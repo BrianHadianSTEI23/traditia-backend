@@ -1,13 +1,13 @@
 
 
-import { pgTable, text, date, serial } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, serial } from "drizzle-orm/pg-core";
 
 // artifacts
 export const artifacts = pgTable('artifacts',{
     id: serial('id').primaryKey(),
     name : text('name'),
     description : text('description'),
-    createdAt: date('createdAt'),
+    createdAt: timestamp('createdAt', { withTimezone: true }).defaultNow(),
     uploadedBy: serial('id').references(() => user.id),
     hash : text('hash').primaryKey(),
     type_id : serial('id').references(() => artifacts_type.id)

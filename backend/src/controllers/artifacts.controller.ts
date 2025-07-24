@@ -1,11 +1,13 @@
 import type { Context } from "hono";
-import { createArtifacts } from "../repositories/artifacts.repository.js";
+import { createArtifacts, getAllArtifacts } from "../repositories/artifacts.repository.js";
 import type { Artifact } from "../types/artifacts.type.js";
 import { HashData } from "../utils/hashData.js";
 // import { contract } from "../libs/web3.js"
 
+// 
 
-export const storeArtifact = async (c : Context) => {
+
+export const store = async (c : Context) => {
     const body:Artifact = await c.req.json();
     const hash = HashData(body.name ?? " " + body.id);
     const metadata = body;
@@ -21,6 +23,7 @@ export const storeArtifact = async (c : Context) => {
     return c.json({ status : 200, hash : hash})
 }
 
-export const getArtifact = async (c : Context) => {
-    return c.text("get method successfully run")
+export const getAll = async (c : Context) => {
+    const artifacts = await getAllArtifacts();
+    return c.json( { status : 200, body : artifacts})
 }
