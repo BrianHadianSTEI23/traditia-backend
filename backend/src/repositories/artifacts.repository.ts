@@ -45,7 +45,7 @@ export async function updateArtifactByHash(hash: string, updatedFields: Partial<
 }
 
 // d : delete by id
-export async function deleteArtifactById(id : number){
-    return db.delete(artifacts).where(eq(artifacts.id, id))
+export async function deleteArtifactByHash(hash : string){
+    return db.delete(artifacts).where(eq(artifacts.hash, hash))
 }
 

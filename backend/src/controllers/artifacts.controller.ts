@@ -1,11 +1,11 @@
 import type { Context } from "hono";
-import { createArtifacts, getAllArtifacts, getArtifactByCreatedDate, getArtifactsById, getArtifactsByHash, updateArtifactByHash, deleteArtifactById } from "../repositories/artifacts.repository.js";
+import { createArtifacts, getAllArtifacts, getArtifactByCreatedDate, getArtifactsById, getArtifactsByHash, updateArtifactByHash, deleteArtifactByHash } from "../repositories/artifacts.repository.js";
 import type { Artifact } from "../types/artifacts.type.js";
 import { HashData } from "../utils/hashData.js";
 // import { contract } from "../libs/web3.js"
 
 // create artifacts
-export const store = async (c : Context) => {
+export const create = async (c : Context) => {
     const body:Artifact = await c.req.json();
     const { name, id, description, createdAt, uploadedBy, hash, type_id} = body;
     const value = HashData(name ?? "" + id + description + createdAt + uploadedBy + hash + type_id);
@@ -56,24 +56,24 @@ export const updateByHash = async (c : Context) => {
 }
 
 // delete by id
-export const deleteById = async (c: Context) => {
+export const deleteByHash = async (c: Context) => {
   try {
     const body = await c.req.json();
-    const { id } = body;
+    const { hash } = body;
 
     // 1. Check if ID is provided and is a number
-    if (!id || typeof id !== 'number') {
+    if (!hash || typeof hash !== 'string') {
       return c.json({ status: 400, message: 'Invalid or missing ID' }, 400);
     }
 
     // 2. Check if artifact exists
-    const artifact = await getArtifactsById(id);
+    const artifact = await getArtifactsByHash(hash);
     if (!artifact || artifact.length === 0) {
       return c.json({ status: 404, message: 'Artifact not found' }, 404);
     }
 
     // 3. Proceed to delete
-    await deleteArtifactById(id);
+    await deleteArtifactByHash(hash);
 
     return c.json({ status: 200, message: 'Artifact deleted successfully', data: artifact });
   } catch (error) {
