@@ -48,7 +48,7 @@ export async function updateEthnicGroupByRegionID(id: number, updatedFields: Par
 }
 
 // d : delete by name
-export async function deleteByName(name : string){
+export async function deleteEthnicGroupByName(name : string){
     return db.delete(ethnic_group).where(eq(ethnic_group.name, name))
 }
 
