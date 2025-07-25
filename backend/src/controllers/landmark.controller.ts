@@ -41,7 +41,7 @@ export const getById = async (c: Context) => {
     }
 
     const result = await getByLandmarkByID(id);
-    if (!result || result.length === 0) {
+    if (!result || result.count === 0) {
       return c.json({ status: 404, message: "Landmark not found" }, 404);
     }
 
@@ -61,7 +61,7 @@ export const getByName = async (c: Context) => {
     }
 
     const result = await getLandmarkByName(name);
-    if (!result || result.length === 0) {
+    if (!result || result.count === 0) {
       return c.json({ status: 404, message: "Landmark not found" }, 404);
     }
 
@@ -115,7 +115,7 @@ export const deleteByID = async (c: Context) => {
     }
 
     const result = await getByLandmarkByID(id);
-    if (!result || result.length === 0) {
+    if (!result || result.count === 0) {
       return c.json({ status: 404, message: "Landmark not found" }, 404);
     }
 

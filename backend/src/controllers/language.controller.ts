@@ -32,7 +32,7 @@ export const getById = async (c: Context) => {
   if (isNaN(id)) return c.json({ status: 400, message: "Invalid ID" }, 400);
 
   const result = await getByLanguageByID(id);
-  if (!result || result.length === 0)
+  if (!result || result.count === 0)
     return c.json({ status: 404, message: "Language not found" }, 404);
 
   return c.json({ status: 200, data: result });
@@ -44,7 +44,7 @@ export const getByName = async (c: Context) => {
   if (!name) return c.json({ status: 400, message: "Missing name" }, 400);
 
   const result = await getLanguageByName(name);
-  if (!result || result.length === 0)
+  if (!result || result.count === 0)
     return c.json({ status: 404, message: "Language not found" }, 404);
 
   return c.json({ status: 200, data: result });
@@ -61,7 +61,7 @@ export const updateById = async (c: Context) => {
     }
 
     const existing = await getByLanguageByID(id);
-    if (!existing || existing.length === 0) {
+    if (!existing || existing.count === 0) {
       return c.json({ status: 404, message: "Language not found" }, 404);
     }
 
@@ -84,7 +84,7 @@ export const deleteLanguageById = async (c: Context) => {
     }
 
     const existing = await getByLanguageByID(id);
-    if (!existing || existing.length === 0) {
+    if (!existing || existing.count === 0) {
       return c.json({ status: 404, message: "Language not found" }, 404);
     }
 

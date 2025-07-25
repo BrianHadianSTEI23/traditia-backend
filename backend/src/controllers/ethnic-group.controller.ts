@@ -98,7 +98,7 @@ export const deleteByName = async (c: Context) => {
 
     // 2. Check if ethnic group exists
     const ethnicGroup = await getByEthnicGroupByName(name);
-    if (!ethnicGroup || ethnicGroup.length === 0) {
+    if (!ethnicGroup || ethnicGroup.count === 0) {
       return c.json({ status: 404, message: 'Ethnic group not found' }, 404);
     }
 

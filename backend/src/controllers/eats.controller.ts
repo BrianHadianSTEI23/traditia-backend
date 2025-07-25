@@ -98,7 +98,7 @@ export const deleteByFoodId = async (c: Context) => {
 
     // 2. Check if artifact exists
     const artifact = await getTraditionalFoodByID(traditional_food_id);
-    if (!artifact || artifact.length === 0) {
+    if (!artifact || artifact.count === 0) {
       return c.json({ status: 404, message: 'Food not found' }, 404);
     }
 
@@ -125,7 +125,7 @@ export const deleteByEthnicId = async (c: Context) => {
 
     // 2. Check if artifact exists
     const artifact = await getEatsByEthnicID(ethnic_group_id);
-    if (!artifact || artifact.length === 0) {
+    if (!artifact || artifact.count === 0) {
       return c.json({ status: 404, message: 'Food not found' }, 404);
     }
 

@@ -32,7 +32,7 @@ export const getById = async (c: Context) => {
   }
 
   const result = await getByFolkloreByID(id);
-  if (!result || result.length === 0) {
+  if (!result || result.count === 0) {
     return c.json({ status: 404, message: "Folklore not found" }, 404);
   }
 

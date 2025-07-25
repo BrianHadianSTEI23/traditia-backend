@@ -55,7 +55,7 @@ export const deleteTypeById = async (c: Context) => {
 
     // 2. Check if artifact exists
     const artifact = await getArtifactTypeById(id);
-    if (!artifact || artifact.length === 0) {
+    if (!artifact || artifact.count === 0) {
       return c.json({ status: 404, message: 'Artifact type not found' }, 404);
     }
 

@@ -97,7 +97,7 @@ export const deleteByTranditionalHouseId = async (c: Context) => {
 
     // 2. Check if artifact exists
     const artifact = await getTraditionalHouseByID(traditional_house_id);
-    if (!artifact || artifact.length === 0) {
+    if (!artifact || artifact.count === 0) {
       return c.json({ status: 404, message: 'House not found' }, 404);
     }
 
@@ -123,7 +123,7 @@ export const deleteByEthnicId = async (c: Context) => {
 
     // 2. Check if artifact exists
     const artifact = await getLivesByEthnicID(ethnic_group_id);
-    if (!artifact || artifact.length === 0) {
+    if (!artifact || artifact.count === 0) {
       return c.json({ status: 404, message: 'Ethnic not found' }, 404);
     }
 
