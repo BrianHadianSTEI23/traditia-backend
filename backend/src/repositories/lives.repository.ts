@@ -48,12 +48,12 @@ export async function updateLivesByTraditionalHouseID(id: number, updatedFields:
 }
 
 // d : delete by id
-export async function deleteArtifactByTraditionalHouseId(id : number){
+export async function deleteLivesByTraditionalHouseId(id : number){
     return db.delete(lives).where(eq(lives.traditional_house_id, id))
 }
 
 // d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
+export async function deleteLivesByEthnicId(id : number){
     return db.delete(lives).where(eq(lives.ethnic_group_id, id))
 }
 

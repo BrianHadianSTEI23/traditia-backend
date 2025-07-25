@@ -48,12 +48,12 @@ export async function updateEatsByFoodID(id: number, updatedFields: Partial<type
 }
 
 // d : delete by id
-export async function deleteArtifactByFoodId(id : number){
+export async function deleteEatsByFoodId(id : number){
     return db.delete(eats).where(eq(eats.traditional_food_id, id))
 }
 
 // d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
+export async function deleteEatsByEthnicId(id : number){
     return db.delete(eats).where(eq(eats.ethnic_group_id, id))
 }
 

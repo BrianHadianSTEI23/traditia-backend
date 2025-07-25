@@ -22,8 +22,13 @@ export async function getAllArtifacts() {
 }
 
 // r : get by hash
-export async function getArtifactsByHash(param:string){
-    return db.select().from(artifacts).where(eq(artifacts.hash, param));
+export async function getArtifactsById(id:number){
+    return db.select().from(artifacts).where(eq(artifacts.id, id));
+}
+
+// r : get by hash
+export async function getArtifactsByHash(hash:string){
+    return db.select().from(artifacts).where(eq(artifacts.hash, hash));
 }
 
 // r : get b date created at
