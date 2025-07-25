@@ -5,6 +5,7 @@
 
 import { Hono } from 'hono'
 // import { supabase } from './libs/supabase.js'
+import { cors } from 'hono/cors';
 
 // Routers
 import artifactRouter from './routes/artifacts.route.js'
@@ -30,6 +31,9 @@ import wearRouter from './routes/wear.route.js'
 import { serve } from '@hono/node-server'
 
 const app = new Hono()
+app.use(cors({
+  origin: 'https://fe-traditia.vercel.app/', // or '*'
+}));
 
 // Register routes
 app.route('/api', artifactRouter)
