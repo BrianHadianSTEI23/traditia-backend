@@ -3,7 +3,7 @@ import {
   getAllTraditionalClothes,
   getTraditionalClothesByID,
   updateTraditionalClothesByID,
-  deleteArtifactById,
+  deleteTraditionalClothesById,
 } from "../repositories/traditional-clothes.repository.js";
 import type { Context } from "hono";
 
@@ -36,8 +36,8 @@ export const putTraditionalClothesById = async (c: Context) => {
 };
 
 // DELETE: delete traditional clothing by ID
-export const deleteTraditionalClothesById = async (c: Context) => {
+export const deleteById = async (c: Context) => {
   const id = Number(c.req.param("id"));
-  const deleted = await deleteArtifactById(id);
+  const deleted = await deleteTraditionalClothesById(id);
   return c.json({ status: 200, body: deleted });
 };
