@@ -9,7 +9,7 @@ import {
 } from "../repositories/language.repository.js";
 
 // CREATE
-export const postLanguage = async (c: Context) => {
+export const create = async (c: Context) => {
   try {
     const body = await c.req.json();
     const inserted = await createLanguage(body);
@@ -53,8 +53,8 @@ export const getByName = async (c: Context) => {
 // UPDATE BY ID
 export const updateById = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id, ...updatedFields } = body;
+    const id = await c.req.param('id');
+    const updatedFields = await c.req.json();
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing ID" }, 400);
@@ -76,8 +76,8 @@ export const updateById = async (c: Context) => {
 // DELETE BY ID
 export const deleteLanguageById = async (c: Context) => {
   try {
+    const id = await c.req.param('id');
     const body = await c.req.json();
-    const { id } = body;
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing ID" }, 400);

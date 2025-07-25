@@ -21,10 +21,9 @@ export const getAllType = async (c : Context) => {
 
 // get type by id
 export const getTypeById = async (c : Context) => {
-    const body = await c.req.json();
-    const {id, ...rest} = body;
+    const id = await c.req.param('id')
 
-    const type = getArtifactTypeById(id);
+    const type = getArtifactTypeById(Number(id));
 
 
     return c.json( { status : 200, body : type})
@@ -47,8 +46,7 @@ export const updateTypeById = async (c : Context) => {
 // delete by id
 export const deleteTypeById = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id } = body;
+    const id = await c.req.param('id');
 
     // 1. Check if ID is provided and is a number
     if (!id || typeof id !== 'number') {

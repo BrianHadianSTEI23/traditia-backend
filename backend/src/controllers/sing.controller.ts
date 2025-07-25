@@ -11,7 +11,7 @@ import {
 } from "../repositories/sing.repository.js";
 
 // CREATE
-export const postSings = async (c: Context) => {
+export const create = async (c: Context) => {
   try {
     const body = await c.req.json();
     const inserted = await createSings(body);
@@ -30,7 +30,7 @@ export const getAll = async (c: Context) => {
 
 // READ BY TRADITIONAL SONG ID
 export const getBySongId = async (c: Context) => {
-  const id = Number(c.req.param("id"));
+  const id = Number(c.req.param("songId"));
   if (isNaN(id)) return c.json({ status: 400, message: "Invalid song ID" }, 400);
 
   const result = await getSingsBySongID(id);
@@ -39,7 +39,7 @@ export const getBySongId = async (c: Context) => {
 
 // READ BY ETHNIC ID
 export const getByEthnicId = async (c: Context) => {
-  const id = Number(c.req.param("id"));
+  const id = Number(c.req.param("ethnicId"));
   if (isNaN(id)) return c.json({ status: 400, message: "Invalid ethnic ID" }, 400);
 
   const result = await getSingsByEthnicID(id);
@@ -49,8 +49,8 @@ export const getByEthnicId = async (c: Context) => {
 // UPDATE BY ETHNIC ID
 export const updateByEthnicId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id, ...updatedFields } = body;
+    const id = await c.req.param('ethnicId');
+    const updatedFields = await c.req.json();
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing ethnic ID" }, 400);
@@ -67,8 +67,8 @@ export const updateByEthnicId = async (c: Context) => {
 // UPDATE BY TRADITIONAL SONG ID
 export const updateBySongId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id, ...updatedFields } = body;
+    const id = await c.req.param('songId');
+    const updatedFields = await c.req.json();
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing song ID" }, 400);
@@ -85,8 +85,7 @@ export const updateBySongId = async (c: Context) => {
 // DELETE BY TRADITIONAL SONG ID
 export const deleteBySongId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id } = body;
+    const id = await c.req.param('songId');
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing song ID" }, 400);
@@ -103,8 +102,7 @@ export const deleteBySongId = async (c: Context) => {
 // DELETE BY ETHNIC ID
 export const deleteByEthnicId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { id } = body;
+    const id = await c.req.param('ethnicId');
 
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing ethnic ID" }, 400);

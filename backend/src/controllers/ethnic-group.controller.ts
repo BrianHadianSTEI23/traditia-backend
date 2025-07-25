@@ -39,8 +39,7 @@ export const getAll = async (c : Context) => {
 // get by name
 export const getByName = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const {name, ...rest} = body;
+        const name = await c.req.param('name');
         const content = await getByEthnicGroupByName(name);
         return c.json( { status : 200, body : content})
     } catch (error) {
@@ -52,9 +51,8 @@ export const getByName = async (c : Context) => {
 // get by region id
 export const getByRegionId = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const {regiod_id, ...rest} = body;
-        const content = await getEthnicGroupByRegionID(regiod_id);
+        const region_id = await c.req.param('regionId');
+        const content = await getEthnicGroupByRegionID(Number(region_id));
         return c.json( { status : 200, body : content})
     } catch (error) {
         console.error(error);
@@ -65,8 +63,8 @@ export const getByRegionId = async (c : Context) => {
 // update by name
 export const updateByName = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const {name, ...rest} = body;
+        const name = await c.req.param('name');
+        const rest = await c.req.json();
         const content = await updateEthnicGroupByName(name, rest);
         return c.json( { status : 200, body : content})
     } catch (error) {
@@ -78,8 +76,8 @@ export const updateByName = async (c : Context) => {
 // update by region id
 export const updateByRegionId = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const {region_id, ...rest} = body;
+        const region_id = await c.req.param('regionId');
+        const rest = await c.req.json();
         const content = await updateEthnicGroupByName(region_id, rest);
         return c.json( { status : 200, body : content})
     } catch (error) {
@@ -91,8 +89,7 @@ export const updateByRegionId = async (c : Context) => {
 // delete by name
 export const deleteByName = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { name } = body;
+    const name = await c.req.param('name');
 
     // 1. Check if name is provided and is a string
     if (!name || typeof name !== 'string') {

@@ -25,7 +25,7 @@ export const getAll = async (c: Context) => {
 
 // Get by ID
 export const getById = async (c: Context) => {
-  const { id } = await c.req.json();
+  const id = await c.req.param('id');
 
   if (typeof id !== "number") {
     return c.json({ status: 400, message: "Invalid ID" }, 400);
@@ -41,7 +41,7 @@ export const getById = async (c: Context) => {
 
 // Get by ethnic group ID
 export const getByEthnicId = async (c: Context) => {
-  const { ethnic_group_id } = await c.req.json();
+  const ethnic_group_id = await c.req.param('ethnicId');
 
   if (typeof ethnic_group_id !== "number") {
     return c.json({ status: 400, message: "Invalid Ethnic Group ID" }, 400);
@@ -53,14 +53,14 @@ export const getByEthnicId = async (c: Context) => {
 
 // Update by ID
 export const updateById = async (c: Context) => {
+  const id = await c.req.param('id');
   const body = await c.req.json();
-  const { id, ...fields } = body;
 
   if (typeof id !== "number") {
     return c.json({ status: 400, message: "Invalid ID" }, 400);
   }
 
-  const result = await updateFolkloreById(id, fields);
+  const result = await updateFolkloreById(id, body);
   return c.json({ status: 200, message: "Folklore updated", data: result });
 };
 
@@ -79,7 +79,7 @@ export const updateByEthnicId = async (c: Context) => {
 
 // Delete by ID
 export const deleteByIdController = async (c: Context) => {
-  const { id } = await c.req.json();
+  const id = await c.req.param('id');
 
   if (typeof id !== "number") {
     return c.json({ status: 400, message: "Invalid ID" }, 400);
@@ -91,7 +91,7 @@ export const deleteByIdController = async (c: Context) => {
 
 // Delete by Ethnic Group ID
 export const deleteByEthnicIdController = async (c: Context) => {
-  const { ethnic_group_id } = await c.req.json();
+  const ethnic_group_id = await c.req.param('ethnicId');
 
   if (typeof ethnic_group_id !== "number") {
     return c.json({ status: 400, message: "Invalid Ethnic Group ID" }, 400);

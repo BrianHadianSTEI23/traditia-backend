@@ -36,9 +36,9 @@ export const getAll = async (c : Context) => {
 // get by food id
 export const getByTraditionalHouseId = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const { traditional_house_id, ...rest}  =body;
-        const content = await getLivesByTraditionalHouseID(traditional_house_id);
+        const traditional_house_id = await c.req.param('traditionalHouseId');
+        const rest  =await c.req.json();
+        const content = await getLivesByTraditionalHouseID(Number(traditional_house_id));
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -49,9 +49,9 @@ export const getByTraditionalHouseId = async (c : Context) => {
 // get by ethnic id
 export const getByEthnicId = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const { ethnic_group_id, ...rest}  =body;
-        const content = await getLivesByEthnicID(ethnic_group_id);
+        const ethnic_group_id = await c.req.param('ethnicId');
+        const rest  = await c.req.json();
+        const content = await getLivesByEthnicID(Number(ethnic_group_id));
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -62,9 +62,9 @@ export const getByEthnicId = async (c : Context) => {
 // uupdate by ethnic id
 export const updateByEthnicID = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const { ethnic_group_id, ...rest}  =body;
-        const content = await updateLivesByEthnicID(ethnic_group_id, rest);
+        const ethnic_group_id = await c.req.param('ethnicId');
+        const rest  =await c.req.json();
+        const content = await updateLivesByEthnicID(Number(ethnic_group_id), rest);
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -75,9 +75,9 @@ export const updateByEthnicID = async (c : Context) => {
 // update by food id
 export const updateByTraditionalHouseID = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const { traditional_house_id, ...rest}  =body;
-        const content = await updateLivesByTraditionalHouseID(traditional_house_id, rest);
+        const traditional_house_id = await c.req.param('traditionalHouseId');
+        const rest  =await c.req.json();
+        const content = await updateLivesByTraditionalHouseID(Number(traditional_house_id), rest);
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -88,8 +88,7 @@ export const updateByTraditionalHouseID = async (c : Context) => {
 // delete by foo id
 export const deleteByTranditionalHouseId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { traditional_house_id } = body;
+    const traditional_house_id = await c.req.param('traditionalHouseId');
 
     // 1. Check if ID is provided and is a number
     if (!traditional_house_id || typeof traditional_house_id !== 'number') {
@@ -115,8 +114,7 @@ export const deleteByTranditionalHouseId = async (c: Context) => {
 // delete by id
 export const deleteByEthnicId = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { ethnic_group_id } = body;
+    const ethnic_group_id = await c.req.param('ethnicId');
 
     // 1. Check if ID is provided and is a number
     if (!ethnic_group_id || typeof ethnic_group_id !== 'number') {

@@ -62,9 +62,9 @@ export const getByEthnicId = async (c : Context) => {
 // uupdate by ethnic id
 export const updateByEthnicID = async (c : Context) => {
     try {
-        const body = await c.req.json();
-        const { ethnic_group_id, ...rest}  =body;
-        const content = await updateEatsByEthnicID(ethnic_group_id, rest);
+        const ethnic_group_id = await c.req.param('ethnicId');
+        const body  = await c.req.json();
+        const content = await updateEatsByEthnicID(Number(ethnic_group_id), body);
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -75,9 +75,9 @@ export const updateByEthnicID = async (c : Context) => {
 // update by food id
 export const updateByFoodID = async (c : Context) => {
     try {
+        const food_id = await c.req.param('foodId');
         const body = await c.req.json();
-        const { food_id, ...rest}  =body;
-        const content = await updateEatsByFoodID(food_id, rest);
+        const content = await updateEatsByFoodID(Number(food_id), body);
         return c.json({ status : 200, body : content});
     } catch (error) {
         console.error(error);
@@ -88,8 +88,8 @@ export const updateByFoodID = async (c : Context) => {
 // delete by foo id
 export const deleteByFoodId = async (c: Context) => {
   try {
+    const traditional_food_id = await c.req.param('foodId');
     const body = await c.req.json();
-    const { traditional_food_id } = body;
 
     // 1. Check if ID is provided and is a number
     if (!traditional_food_id || typeof traditional_food_id !== 'number') {

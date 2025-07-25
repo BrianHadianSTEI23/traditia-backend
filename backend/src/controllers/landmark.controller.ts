@@ -55,7 +55,7 @@ export const getById = async (c: Context) => {
 // Get by Name
 export const getByName = async (c: Context) => {
   try {
-    const { name } = await c.req.json();
+    const name = await c.req.param('name');
     if (!name || typeof name !== "string") {
       return c.json({ status: 400, message: "Invalid or missing name" }, 400);
     }
@@ -75,7 +75,8 @@ export const getByName = async (c: Context) => {
 // Update by ID
 export const updateById = async (c: Context) => {
   try {
-    const { id, ...fields } = await c.req.json();
+    const id = await c.req.param('id');
+    const fields = await c.req.json();
     if (!id || typeof id !== "number") {
       return c.json({ status: 400, message: "Invalid or missing ID" }, 400);
     }
@@ -91,7 +92,8 @@ export const updateById = async (c: Context) => {
 // Update by Name
 export const updateByName = async (c: Context) => {
   try {
-    const { name, ...fields } = await c.req.json();
+    const name = await c.req.param('name');
+    const fields = await c.req.json();
     if (!name || typeof name !== "string") {
       return c.json({ status: 400, message: "Invalid or missing name" }, 400);
     }

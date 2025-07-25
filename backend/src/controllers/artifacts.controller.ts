@@ -29,22 +29,23 @@ export const getAll = async (c : Context) => {
 
 // get by created date
 export const getByCreatedDate = async (c : Context) => {
-    const body:Date = await c.req.json();
-    const artifacts = await getArtifactByCreatedDate(body);
+    const body = await c.req.param('date');
+    const dateParam = new Date(body);
+    const artifacts = await getArtifactByCreatedDate(dateParam);
     return c.json( { status : 200, body : artifacts})
 }
 
 // get by hash
 export const getByHash = async (c : Context) => {
-    const body:string = await c.req.json();
+    const body:string = await c.req.param('hash');
     const artifacts = await getArtifactsByHash(body);
     return c.json( { status : 200, body : artifacts})
 }
 
 // update by hash
 export const updateByHash = async (c : Context) => {
-    const body = await c.req.json();
-    const {hash, ...updatedFields} = (body);
+    const hash = await c.req.param('hash');
+    const updatedFields = await c.req.json();
 
     // throw to repo
     if (!hash) {
@@ -58,8 +59,7 @@ export const updateByHash = async (c : Context) => {
 // delete by id
 export const deleteByHash = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const { hash } = body;
+    const hash = await c.req.param('hash');
 
     // 1. Check if ID is provided and is a number
     if (!hash || typeof hash !== 'string') {
