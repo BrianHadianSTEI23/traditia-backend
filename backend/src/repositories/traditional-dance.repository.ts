@@ -50,3 +50,9 @@ export async function deleteTraditionalDanceById(id: number) {
 export async function deleteTraditionalDanceByEthnicId(id: number) {
   return db.from('traditional_dance').delete().eq('ethnic_group_id', id);
 }
+
+// Read: Get by Name
+export async function getTraditionalDanceByName(name: string) {
+  return db.from('traditional_dance').select('*').eq('name', name);
+}
+

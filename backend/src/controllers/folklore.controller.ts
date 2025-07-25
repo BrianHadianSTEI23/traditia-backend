@@ -7,7 +7,8 @@ import {
   updateFolkloreById,
   updateFolkloreByEthnicID,
   deleteById,
-  deleteByEthnicId
+  deleteByEthnicId,
+  getByFolkloreByName
 } from "../repositories/folklore.repository.js";
 
 // Create
@@ -48,6 +49,17 @@ export const getByEthnicId = async (c: Context) => {
   }
 
   const result = await getFolkloreByEthnicID(ethnic_group_id);
+  return c.json({ status: 200, data: result });
+};
+
+export const getByName = async (c: Context) => {
+  const name = await c.req.param('name');
+
+  if (typeof name !== "string") {
+    return c.json({ status: 400, message: "Invalid Ethnic Group ID" }, 400);
+  }
+
+  const result = await getByFolkloreByName(name);
   return c.json({ status: 200, data: result });
 };
 

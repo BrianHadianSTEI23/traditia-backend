@@ -6,7 +6,8 @@ import {
   updateTraditionalDanceByID,
   updateTraditionalDanceByEthnicID,
   deleteTraditionalDanceByEthnicId,
-  deleteTraditionalDanceById
+  deleteTraditionalDanceById,
+  getTraditionalDanceByName
 } from "../repositories/traditional-dance.repository.js";
 import type { Context } from "hono";
 
@@ -50,6 +51,14 @@ export const updateByEthnicId = async (c: Context) => {
   const id = Number(c.req.param("ethnic_id"));
   const updatedFields = await c.req.json();
   const updated = await updateTraditionalDanceByEthnicID(id, updatedFields);
+  return c.json({ status: 200, body: updated });
+};
+
+// get by name
+export const getByName= async (c: Context) => {
+  const name = await (c.req.param("name"));
+  const updatedFields = await c.req.json();
+  const updated = await getTraditionalDanceByName(name);
   return c.json({ status: 200, body: updated });
 };
 

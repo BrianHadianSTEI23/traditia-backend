@@ -26,6 +26,11 @@ export async function getTraditionalHouseByID(id: number) {
   return db.from('traditional_house').select('*').eq('id', id);
 }
 
+// Read: Get by Name
+export async function getTraditionalHouseByName(name: string) {
+  return db.from('traditional_house').select('*').eq('name', name);
+}
+
 // Update: By ID
 export async function updateTraditionalHouseByID(id: number, updatedFields: Partial<TraditionalHouse>) {
   return db.from('traditional_house').update(updatedFields).eq('id', id);

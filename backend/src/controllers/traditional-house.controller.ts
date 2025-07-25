@@ -3,7 +3,8 @@ import {
   getAllTraditionalHouse,
   getTraditionalHouseByID,
   updateTraditionalHouseByID,
-  deleteTraditionalHouseById
+  deleteTraditionalHouseById,
+  getTraditionalHouseByName
 } from "../repositories/traditional-house.repository.js";
 import type { Context } from "hono";
 
@@ -26,6 +27,15 @@ export const getById = async (c: Context) => {
   const result = await getTraditionalHouseByID(id);
   return c.json({ status: 200, body: result });
 };
+
+// GET: get traditional house by ID
+export const getByName = async (c: Context) => {
+  const name = await (c.req.param("name"));
+  const result = await getTraditionalHouseByName(name);
+  return c.json({ status: 200, body: result });
+};
+
+
 
 // PUT: update traditional house by ID
 export const updateById = async (c: Context) => {

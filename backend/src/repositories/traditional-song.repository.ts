@@ -26,6 +26,11 @@ export async function getTraditionalSongByID(id: number) {
   return db.from('traditional_song').select('*').eq('id', id);
 }
 
+// Read: Get by ID
+export async function getTraditionalSongByName(name: string) {
+  return db.from('traditional_song').select('*').eq('name', name);
+}
+
 // Update: By ID
 export async function updateTraditionalSongByID(id: number, updatedFields: Partial<TraditionalSong>) {
   return db.from('traditional_song').update(updatedFields).eq('id', id);

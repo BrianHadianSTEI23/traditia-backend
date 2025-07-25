@@ -26,6 +26,11 @@ export async function getTraditionalFoodByID(id: number) {
   return db.from('traditional_food').select('*').eq('id', id);
 }
 
+// Read: Get by ID
+export async function getTraditionalFoodByName(name: string) {
+  return db.from('traditional_food').select('*').eq('name', name);
+}
+
 // Update: By ID
 export async function updateTraditionalFoodByID(id: number, updatedFields: Partial<TraditionalFood>) {
   return db.from('traditional_food').update(updatedFields).eq('id', id);

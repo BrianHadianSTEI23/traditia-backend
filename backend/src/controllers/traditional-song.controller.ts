@@ -3,7 +3,8 @@ import {
   getAllTraditionalSong,
   getTraditionalSongByID,
   updateTraditionalSongByID,
-  deleteTraditionalSongById
+  deleteTraditionalSongById,
+  getTraditionalSongByName
 } from "../repositories/traditional-song.repository.js";
 import type { Context } from "hono";
 
@@ -24,6 +25,13 @@ export const getAll = async (c: Context) => {
 export const getBySongId = async (c: Context) => {
   const id = Number(c.req.param("id"));
   const result = await getTraditionalSongByID(id);
+  return c.json({ status: 200, body: result });
+};
+
+// GET: get traditional song by ID
+export const getBySongName = async (c: Context) => {
+  const name = String(c.req.param("name"));
+  const result = await getTraditionalSongByName(name);
   return c.json({ status: 200, body: result });
 };
 

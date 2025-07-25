@@ -26,6 +26,10 @@ export async function getByFolkloreByID(id: number) {
   return db.from('folklore').select('*').eq('id', id);
 }
 
+export async function getByFolkloreByName(name: string) {
+  return db.from('folklore').select('*').eq('name', name);
+}
+
 // Read: get by ethnic_group_id
 export async function getFolkloreByEthnicID(id: number) {
   return db.from('folklore').select('*').eq('ethnic_group_id', id);

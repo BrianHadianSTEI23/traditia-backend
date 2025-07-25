@@ -3,7 +3,8 @@ import {
   getAllTraditionalFood,
   getTraditionalFoodByID,
   updateTraditionalFoodByID,
-  deleteTraditionalFoodById
+  deleteTraditionalFoodById,
+  getTraditionalFoodByName
 } from "../repositories/traditional-food.repository.js";
 import type { Context } from "hono";
 
@@ -24,6 +25,13 @@ export const getAll = async (c: Context) => {
 export const getById = async (c: Context) => {
   const id = Number(c.req.param("id"));
   const result = await getTraditionalFoodByID(id);
+  return c.json({ status: 200, body: result });
+};
+
+// GET: get traditional food by ID
+export const getByName = async (c: Context) => {
+  const name = (c.req.param("name"));
+  const result = await getTraditionalFoodByName(name);
   return c.json({ status: 200, body: result });
 };
 
