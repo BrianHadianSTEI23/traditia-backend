@@ -1,6 +1,6 @@
 import { db } from "../libs/drizzle.js";
-import { lives } from "../libs/schema.js";
-import type { Lives } from "../types/lives.type.js";
+import { tradition } from "../libs/schema.js";
+import type { Traditon } from "../types/tradition.type.js";
 import { eq } from "drizzle-orm";
 
 // crud 
@@ -12,48 +12,48 @@ import { eq } from "drizzle-orm";
  */
 
 // c
-export async function createLives(e:Lives){
-    return db.insert(lives).values(e);
+export async function createTradition(e:Traditon){
+    return db.insert(tradition).values(e);
 }
 
 // r : get all
-export async function getAllLives() {
-    return db.select().from(lives);
+export async function getAllTraditon() {
+    return db.select().from(tradition);
 }
 
 // r : get by food id
-export async function getLivesByTraditionalHouseID(id:number){
-    return db.select().from(lives).where(eq(lives.traditional_house_id, id));
+export async function getTraditonById(id:number){
+    return db.select().from(tradition).where(eq(tradition.id, id));
 }
 
 // r : get by food id
-export async function getLivesByEthnicID(ethnic_id:number){
-    return db.select().from(lives).where(eq(lives.ethnic_group_id, ethnic_id));
+export async function getTraditonByName(name:string){
+    return db.select().from(tradition).where(eq(tradition.name, name));
 }
 
 // u : update by hash
-export async function updateLivesByEthnicID(id: number, updatedFields: Partial<typeof lives.$inferInsert>) {
+export async function updateTraditonByID(id: number, updatedFields: Partial<typeof tradition.$inferInsert>) {
     return db
-    .update(lives)
+    .update(tradition)
     .set(updatedFields)
-    .where(eq(lives.ethnic_group_id, id));
+    .where(eq(tradition.id, id));
 }
 
 // u : update by hash
-export async function updateLivesByTraditionalHouseID(id: number, updatedFields: Partial<typeof lives.$inferInsert>) {
+export async function updateTraditonByName(name: string, updatedFields: Partial<typeof tradition.$inferInsert>) {
     return db
-    .update(lives)
+    .update(tradition)
     .set(updatedFields)
-    .where(eq(lives.traditional_house_id, id));
+    .where(eq(tradition.name, name));
 }
 
 // d : delete by id
-export async function deleteArtifactByTraditionalHouseId(id : number){
-    return db.delete(lives).where(eq(lives.traditional_house_id, id))
+export async function deleteTraditionById(id : number){
+    return db.delete(tradition).where(eq(tradition.id, id))
 }
 
 // d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
-    return db.delete(lives).where(eq(lives.ethnic_group_id, id))
+export async function deleteTraditionByName(name : string){
+    return db.delete(tradition).where(eq(tradition.name, name))
 }
 

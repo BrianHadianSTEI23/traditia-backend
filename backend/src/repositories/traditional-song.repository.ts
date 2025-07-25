@@ -35,6 +35,6 @@ export async function updateTraditionalSongByID(id: number, updatedFields: Parti
 }
 
 // d : delete by id
-export async function deleteArtifactById(id : number){
+export async function deleteTraditionalSongById(id : number){
     return db.delete(traditional_song).where(eq(traditional_song.id, id))
 }

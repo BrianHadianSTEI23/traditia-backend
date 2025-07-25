@@ -35,6 +35,6 @@ export async function updateTraditionalHouseByID(id: number, updatedFields: Part
 }
 
 // d : delete by id
-export async function deleteArtifactById(id : number){
+export async function deleteTraditionalHouseById(id : number){
     return db.delete(traditional_house).where(eq(traditional_house.id, id))
 }
