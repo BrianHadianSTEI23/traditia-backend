@@ -1,31 +1,37 @@
-import 'dotenv/config'
+// Load env variables (only in development)
+// if (process.env.NODE_ENV !== 'production') {
+  import('dotenv/config')
+// }
 
-import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+// import { supabase } from './libs/supabase.js'
+
+// Routers
 import artifactRouter from './routes/artifacts.route.js'
-import artifactTypeRouter from './routes/artifacts-type.route.js';
-import eatsRouter from './routes/eats.route.js';
-import ethnicGroupRouter from './routes/ethnic-group.route.js';
-import folkloreRouter from './routes/folklore.route.js';
-import landmarkRouter from './routes/landmark.route.js';
-import languageRouter from './routes/language.route.js';
-import livesRouter from './routes/lives.route.js';
-import regionRouter from './routes/region.route.js';
-import singRouter from './routes/sing.route.js';
-import speakRouter from './routes/speaks.route.js';
-import traditionClassRouter from './routes/tradition-class.route.js';
-import traditionRouter from './routes/tradition.route.js';
-import traditionalClothesRouter from './routes/traditional-clothes.route.js';
-import traditionalFoodRouter from './routes/traditional-food.route.js';
-import traditionalHouseRouter from './routes/traditional-house.route.js';
-import traditionalSongRouter from './routes/traditional-song.route.js';
-import user from './routes/user.route.js';
-import wearRouter from './routes/wear.route.js';
-import traditionDanceRouter from './routes/traditional-dance.route.js';
+import artifactTypeRouter from './routes/artifacts-type.route.js'
+import eatsRouter from './routes/eats.route.js'
+import ethnicGroupRouter from './routes/ethnic-group.route.js'
+import folkloreRouter from './routes/folklore.route.js'
+import landmarkRouter from './routes/landmark.route.js'
+import languageRouter from './routes/language.route.js'
+import livesRouter from './routes/lives.route.js'
+import regionRouter from './routes/region.route.js'
+import singRouter from './routes/sing.route.js'
+import speakRouter from './routes/speaks.route.js'
+import traditionClassRouter from './routes/tradition-class.route.js'
+import traditionRouter from './routes/tradition.route.js'
+import traditionalClothesRouter from './routes/traditional-clothes.route.js'
+import traditionDanceRouter from './routes/traditional-dance.route.js'
+import traditionalFoodRouter from './routes/traditional-food.route.js'
+import traditionalHouseRouter from './routes/traditional-house.route.js'
+import traditionalSongRouter from './routes/traditional-song.route.js'
+import userRouter from './routes/user.route.js'
+import wearRouter from './routes/wear.route.js'
+import { serve } from '@hono/node-server'
 
-const app = new Hono();
+const app = new Hono()
 
-// base it all in /api
+// Register routes
 app.route('/api', artifactRouter)
 app.route('/api', artifactTypeRouter)
 app.route('/api', eatsRouter)
@@ -37,7 +43,6 @@ app.route('/api', livesRouter)
 app.route('/api', regionRouter)
 app.route('/api', singRouter)
 app.route('/api', speakRouter)
-app.route('/api', languageRouter)
 app.route('/api', traditionClassRouter)
 app.route('/api', traditionRouter)
 app.route('/api', traditionalClothesRouter)
@@ -45,12 +50,18 @@ app.route('/api', traditionDanceRouter)
 app.route('/api', traditionalFoodRouter)
 app.route('/api', traditionalHouseRouter)
 app.route('/api', traditionalSongRouter)
-app.route('/api', user)
+app.route('/api', userRouter)
 app.route('/api', wearRouter)
 
-app.get('/', (c) => {
-  return c.text('Server is healthy. Heads up Hono!')
-})
+// Health check
+app.get('/', (c) => c.text('Server is healthy. Heads up Hono!'))
+
+// Supabase test route
+// app.get('/users', async (c) => {
+//   const { data, error } = await supabase.from('users').select('*')
+//   if (error) return c.json({ error: error.message }, 500)
+//   return c.json(data)
+// })
 
 serve({
   fetch: app.fetch,

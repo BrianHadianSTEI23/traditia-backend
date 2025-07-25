@@ -3,7 +3,7 @@ import {
   getAllTraditionalFood,
   getTraditionalFoodByID,
   updateTraditionalFoodByID,
-  deleteArtifactById
+  deleteTraditionalFoodById
 } from "../repositories/traditional-food.repository.js";
 import type { Context } from "hono";
 
@@ -38,6 +38,6 @@ export const updateByFoodId = async (c: Context) => {
 // DELETE: delete traditional food by ID
 export const deleteByFoodId = async (c: Context) => {
   const id = Number(c.req.param("id"));
-  const deleted = await deleteArtifactById(id);
+  const deleted = await deleteTraditionalFoodById(id);
   return c.json({ status: 200, body: deleted });
 };

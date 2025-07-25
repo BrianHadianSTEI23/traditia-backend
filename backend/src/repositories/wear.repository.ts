@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { wear } from "../libs/schema.js";
 import type { Wear } from "../types/wear.type.js";
 import { eq } from "drizzle-orm";
@@ -11,49 +11,58 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id, delete by ethnic_id
  */
 
-// c
-export async function createWear(e:Wear){
-    return db.insert(wear).values(e);
+// Create
+export async function createWear(e: Wear) {
+  const { data, error } = await db.from('wear').insert([e]).select();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// r : get all
+// Read: Get all
 export async function getAllWear() {
-    return db.select().from(wear);
+  const { data, error } = await db.from('wear').select('*');
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// r : get by food id
-export async function getWearByTraditionalClothesID(id:number){
-    return db.select().from(wear).where(eq(wear.traditional_clothes_id, id));
+// Read: Get by Traditional Clothes ID
+export async function getWearByTraditionalClothesID(id: number) {
+  const { data, error } = await db.from('wear').select('*').eq('traditional_clothes_id', id);
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// r : get by food id
-export async function getWearByEthnicID(ethnic_id:number){
-    return db.select().from(wear).where(eq(wear.ethnic_group_id, ethnic_id));
+// Read: Get by Ethnic Group ID
+export async function getWearByEthnicID(ethnic_id: number) {
+  const { data, error } = await db.from('wear').select('*').eq('ethnic_group_id', ethnic_id);
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// u : update by hash
-export async function updateWearByEthnicID(id: number, updatedFields: Partial<typeof wear.$inferInsert>) {
-    return db
-    .update(wear)
-    .set(updatedFields)
-    .where(eq(wear.ethnic_group_id, id));
+// Update: By Ethnic Group ID
+export async function updateWearByEthnicID(id: number, updatedFields: Partial<Wear>) {
+  const { data, error } = await db.from('wear').update(updatedFields).eq('ethnic_group_id', id).select();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// u : update by hash
-export async function updateWearByTraditionalClothesID(id: number, updatedFields: Partial<typeof wear.$inferInsert>) {
-    return db
-    .update(wear)
-    .set(updatedFields)
-    .where(eq(wear.traditional_clothes_id, id));
+// Update: By Traditional Clothes ID
+export async function updateWearByTraditionalClothesID(id: number, updatedFields: Partial<Wear>) {
+  const { data, error } = await db.from('wear').update(updatedFields).eq('traditional_clothes_id', id).select();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// d : delete by id
-export async function deleteArtifactByTraditionalClothesId(id : number){
-    return db.delete(wear).where(eq(wear.traditional_clothes_id, id))
+// Delete: By Traditional Clothes ID
+export async function deleteWearByTraditionalClothesId(id: number) {
+  const { data, error } = await db.from('wear').delete().eq('traditional_clothes_id', id).select();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
-// d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
-    return db.delete(wear).where(eq(wear.ethnic_group_id, id))
+// Delete: By Ethnic Group ID
+export async function deleteWearByEthnicId(id: number) {
+  const { data, error } = await db.from('wear').delete().eq('ethnic_group_id', id).select();
+  if (error) throw new Error(error.message);
+  return data;
 }
-

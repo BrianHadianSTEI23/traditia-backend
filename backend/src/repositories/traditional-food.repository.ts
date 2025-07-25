@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { traditional_food } from "../libs/schema.js";
 import type { TraditionalFood } from "../types/traditional-food.type.js";
 import { eq } from "drizzle-orm";
@@ -11,30 +11,27 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id
  */
 
-// c
-export async function createTraditionalFood(e:TraditionalFood){
-    return db.insert(traditional_food).values(e);
+// Create
+export async function createTraditionalFood(e: TraditionalFood) {
+  return db.from('traditional_food').insert([e]);
 }
 
-// r : get all
+// Read: Get all
 export async function getAllTraditionalFood() {
-    return db.select().from(traditional_food);
+  return db.from('traditional_food').select('*');
 }
 
-// r : get by food id
-export async function getTraditionalFoodByID(id:number){
-    return db.select().from(traditional_food).where(eq(traditional_food.id, id));
+// Read: Get by ID
+export async function getTraditionalFoodByID(id: number) {
+  return db.from('traditional_food').select('*').eq('id', id);
 }
 
-// u : update by hash
-export async function updateTraditionalFoodByID(id: number, updatedFields: Partial<typeof traditional_food.$inferInsert>) {
-    return db
-    .update(traditional_food)
-    .set(updatedFields)
-    .where(eq(traditional_food.id, id));
+// Update: By ID
+export async function updateTraditionalFoodByID(id: number, updatedFields: Partial<TraditionalFood>) {
+  return db.from('traditional_food').update(updatedFields).eq('id', id);
 }
 
-// d : delete by id
-export async function deleteArtifactById(id : number){
-    return db.delete(traditional_food).where(eq(traditional_food.id, id))
+// Delete: By ID
+export async function deleteTraditionalFoodById(id: number) {
+  return db.from('traditional_food').delete().eq('id', id);
 }

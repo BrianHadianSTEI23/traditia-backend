@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { traditional_house } from "../libs/schema.js";
 import type { TraditionalHouse } from "../types/traditional-house.type.js";
 import { eq } from "drizzle-orm";
@@ -11,30 +11,27 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id
  */
 
-// c
-export async function createTraditionalHouse(e:TraditionalHouse){
-    return db.insert(traditional_house).values(e);
+// Create
+export async function createTraditionalHouse(e: TraditionalHouse) {
+  return db.from('traditional_house').insert([e]);
 }
 
-// r : get all
+// Read: Get all
 export async function getAllTraditionalHouse() {
-    return db.select().from(traditional_house);
+  return db.from('traditional_house').select('*');
 }
 
-// r : get by food id
-export async function getTraditionalHouseByID(id:number){
-    return db.select().from(traditional_house).where(eq(traditional_house.id, id));
+// Read: Get by ID
+export async function getTraditionalHouseByID(id: number) {
+  return db.from('traditional_house').select('*').eq('id', id);
 }
 
-// u : update by hash
-export async function updateTraditionalHouseByID(id: number, updatedFields: Partial<typeof traditional_house.$inferInsert>) {
-    return db
-    .update(traditional_house)
-    .set(updatedFields)
-    .where(eq(traditional_house.id, id));
+// Update: By ID
+export async function updateTraditionalHouseByID(id: number, updatedFields: Partial<TraditionalHouse>) {
+  return db.from('traditional_house').update(updatedFields).eq('id', id);
 }
 
-// d : delete by id
-export async function deleteTraditionalHouseById(id : number){
-    return db.delete(traditional_house).where(eq(traditional_house.id, id))
+// Delete: By ID
+export async function deleteTraditionalHouseById(id: number) {
+  return db.from('traditional_house').delete().eq('id', id);
 }

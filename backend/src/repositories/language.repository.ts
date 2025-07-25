@@ -1,7 +1,5 @@
-import { db } from "../libs/drizzle.js";
-import { language } from "../libs/schema.js";
+import { db } from "../libs/supabase.js";
 import type { Language } from "../types/language.type.js";
-import { eq } from "drizzle-orm";
 
 // crud 
 /**
@@ -11,38 +9,32 @@ import { eq } from "drizzle-orm";
  * d : delete by id
  */
 
-// c
-export async function createLanguage(f: Language){
-    return db.insert(language).values(f);
+// Create
+export async function createLanguage(f: Language) {
+  return db.from('language').insert([f]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllLanguage() {
-    return db.select().from(language);
+  return db.from('language').select('*');
 }
 
-// r : get by hash
-export async function getByLanguageByID(id:number){
-    return db.select().from(language).where(eq(language.id, id));
+// Read: get by ID
+export async function getByLanguageByID(id: number) {
+  return db.from('language').select('*').eq('id', id);
 }
 
-// r : get b date created at
-export async function getLanguageByName(name : string){
-    return db.select().from(language).where(eq(language.name, name))
+// Read: get by name
+export async function getLanguageByName(name: string) {
+  return db.from('language').select('*').eq('name', name);
 }
 
-// u : update by hash
-export async function updateLanguageById(id: number, updatedFields: Partial<typeof language.$inferInsert>) {
-  return db
-    .update(language)
-    .set(updatedFields)
-    .where(eq(language.id, id));
+// Update: by ID
+export async function updateLanguageById(id: number, updatedFields: Partial<Language>) {
+  return db.from('language').update(updatedFields).eq('id', id);
 }
 
-
-// d : delete by name
-export async function deleteById(id : number){
-    return db.delete(language).where(eq(language.id, id))
+// Delete: by ID
+export async function deleteById(id: number) {
+  return db.from('language').delete().eq('id', id);
 }
-
-

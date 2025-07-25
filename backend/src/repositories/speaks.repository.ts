@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { speaks } from "../libs/schema.js";
 import type { Speaks } from "../types/speaks.type.js";
 import { eq } from "drizzle-orm";
@@ -11,49 +11,42 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id, delete by ethnic_id
  */
 
-// c
-export async function createSpeaks(e:Speaks){
-    return db.insert(speaks).values(e);
+// Create
+export async function createSpeaks(e: Speaks) {
+  return db.from('speaks').insert([e]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllSpeaks() {
-    return db.select().from(speaks);
+  return db.from('speaks').select('*');
 }
 
-// r : get by food id
-export async function getSpeaksByLanguageID(id:number){
-    return db.select().from(speaks).where(eq(speaks.language_id, id));
+// Read: by language_id
+export async function getSpeaksByLanguageID(id: number) {
+  return db.from('speaks').select('*').eq('language_id', id);
 }
 
-// r : get by food id
-export async function getSpeaksByEthnicID(ethnic_id:number){
-    return db.select().from(speaks).where(eq(speaks.ethnic_group_id, ethnic_id));
+// Read: by ethnic_group_id
+export async function getSpeaksByEthnicID(ethnic_id: number) {
+  return db.from('speaks').select('*').eq('ethnic_group_id', ethnic_id);
 }
 
-// u : update by hash
-export async function updateSpeaksByEthnicID(id: number, updatedFields: Partial<typeof speaks.$inferInsert>) {
-    return db
-    .update(speaks)
-    .set(updatedFields)
-    .where(eq(speaks.ethnic_group_id, id));
+// Update: by ethnic_group_id
+export async function updateSpeaksByEthnicID(id: number, updatedFields: Partial<Speaks>) {
+  return db.from('speaks').update(updatedFields).eq('ethnic_group_id', id);
 }
 
-// u : update by hash
-export async function updateSpeaksByLanguageID(id: number, updatedFields: Partial<typeof speaks.$inferInsert>) {
-    return db
-    .update(speaks)
-    .set(updatedFields)
-    .where(eq(speaks.language_id, id));
+// Update: by language_id
+export async function updateSpeaksByLanguageID(id: number, updatedFields: Partial<Speaks>) {
+  return db.from('speaks').update(updatedFields).eq('language_id', id);
 }
 
-// d : delete by id
-export async function deleteArtifactByLanguageId(id : number){
-    return db.delete(speaks).where(eq(speaks.language_id, id))
+// Delete: by language_id
+export async function deleteArtifactByLanguageId(id: number) {
+  return db.from('speaks').delete().eq('language_id', id);
 }
 
-// d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
-    return db.delete(speaks).where(eq(speaks.ethnic_group_id, id))
+// Delete: by ethnic_group_id
+export async function deleteArtifactByEthnicId(id: number) {
+  return db.from('speaks').delete().eq('ethnic_group_id', id);
 }
-

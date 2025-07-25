@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { tradition } from "../libs/schema.js";
 import type { Traditon } from "../types/tradition.type.js";
 import { eq } from "drizzle-orm";
@@ -11,49 +11,42 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id, delete by ethnic_id
  */
 
-// c
-export async function createTradition(e:Traditon){
-    return db.insert(tradition).values(e);
+// Create
+export async function createTradition(e: Traditon) {
+  return db.from('tradition').insert([e]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllTraditon() {
-    return db.select().from(tradition);
+  return db.from('tradition').select('*');
 }
 
-// r : get by food id
-export async function getTraditonById(id:number){
-    return db.select().from(tradition).where(eq(tradition.id, id));
+// Read: get by ID
+export async function getTraditonById(id: number) {
+  return db.from('tradition').select('*').eq('id', id);
 }
 
-// r : get by food id
-export async function getTraditonByName(name:string){
-    return db.select().from(tradition).where(eq(tradition.name, name));
+// Read: get by Name
+export async function getTraditonByName(name: string) {
+  return db.from('tradition').select('*').eq('name', name);
 }
 
-// u : update by hash
-export async function updateTraditonByID(id: number, updatedFields: Partial<typeof tradition.$inferInsert>) {
-    return db
-    .update(tradition)
-    .set(updatedFields)
-    .where(eq(tradition.id, id));
+// Update: by ID
+export async function updateTraditonByID(id: number, updatedFields: Partial<Traditon>) {
+  return db.from('tradition').update(updatedFields).eq('id', id);
 }
 
-// u : update by hash
-export async function updateTraditonByName(name: string, updatedFields: Partial<typeof tradition.$inferInsert>) {
-    return db
-    .update(tradition)
-    .set(updatedFields)
-    .where(eq(tradition.name, name));
+// Update: by Name
+export async function updateTraditonByName(name: string, updatedFields: Partial<Traditon>) {
+  return db.from('tradition').update(updatedFields).eq('name', name);
 }
 
-// d : delete by id
-export async function deleteTraditionById(id : number){
-    return db.delete(tradition).where(eq(tradition.id, id))
+// Delete: by ID
+export async function deleteTraditionById(id: number) {
+  return db.from('tradition').delete().eq('id', id);
 }
 
-// d : delete by id
-export async function deleteTraditionByName(name : string){
-    return db.delete(tradition).where(eq(tradition.name, name))
+// Delete: by Name
+export async function deleteTraditionByName(name: string) {
+  return db.from('tradition').delete().eq('name', name);
 }
-

@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { traditional_dance } from "../libs/schema.js";
 import type { TraditionalDance } from "../types/traditional-dance.type.js";
 import { eq } from "drizzle-orm";
@@ -11,47 +11,42 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id
  */
 
-// c
-export async function createTraditionalDance(e:TraditionalDance){
-    return db.insert(traditional_dance).values(e);
+// Create
+export async function createTraditionalDance(e: TraditionalDance) {
+  return db.from('traditional_dance').insert([e]);
 }
 
-// r : get all
+// Read: Get all
 export async function getAllTraditionalDance() {
-    return db.select().from(traditional_dance);
+  return db.from('traditional_dance').select('*');
 }
 
-// r : get by food id
-export async function getTraditionalDanceByID(id:number){
-    return db.select().from(traditional_dance).where(eq(traditional_dance.id, id));
+// Read: Get by ID
+export async function getTraditionalDanceByID(id: number) {
+  return db.from('traditional_dance').select('*').eq('id', id);
 }
 
-// r : get by food id
-export async function getTraditionalDanceByEthnicID(id:number){
-    return db.select().from(traditional_dance).where(eq(traditional_dance.ethnic_group_id, id));
+// Read: Get by Ethnic Group ID
+export async function getTraditionalDanceByEthnicID(id: number) {
+  return db.from('traditional_dance').select('*').eq('ethnic_group_id', id);
 }
 
-// u : update by hash
-export async function updateTraditionalDanceByID(id: number, updatedFields: Partial<typeof traditional_dance.$inferInsert>) {
-    return db
-    .update(traditional_dance)
-    .set(updatedFields)
-    .where(eq(traditional_dance.id, id));
+// Update: By ID
+export async function updateTraditionalDanceByID(id: number, updatedFields: Partial<TraditionalDance>) {
+  return db.from('traditional_dance').update(updatedFields).eq('id', id);
 }
 
-export async function updateTraditionalDanceByEthnicID(id: number, updatedFields: Partial<typeof traditional_dance.$inferInsert>) {
-    return db
-    .update(traditional_dance)
-    .set(updatedFields)
-    .where(eq(traditional_dance.ethnic_group_id, id));
+// Update: By Ethnic Group ID
+export async function updateTraditionalDanceByEthnicID(id: number, updatedFields: Partial<TraditionalDance>) {
+  return db.from('traditional_dance').update(updatedFields).eq('ethnic_group_id', id);
 }
 
-// d : delete by id
-export async function deleteArtifactById(id : number){
-    return db.delete(traditional_dance).where(eq(traditional_dance.id, id))
+// Delete: By ID
+export async function deleteTraditionalDanceById(id: number) {
+  return db.from('traditional_dance').delete().eq('id', id);
 }
 
-// d : delete by id
-export async function deleteArtifactByEthnicId(id : number){
-    return db.delete(traditional_dance).where(eq(traditional_dance.ethnic_group_id, id))
+// Delete: By Ethnic Group ID
+export async function deleteTraditionalDanceByEthnicId(id: number) {
+  return db.from('traditional_dance').delete().eq('ethnic_group_id', id);
 }

@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { user } from "../libs/schema.js";
 import type { User } from "../types/user.type.js";
 import { eq } from "drizzle-orm";
@@ -11,48 +11,42 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id, email
  */
 
-// c
-export async function createUser(e:User){
-    return db.insert(user).values(e);
+// Create
+export async function createUser(e: User) {
+  return db.from('user').insert([e]);
 }
 
-// r : get all
+// Read: Get all
 export async function getAllUser() {
-    return db.select().from(user);
+  return db.from('user').select('*');
 }
 
-// r : get by food id
-export async function getUserByID(id:number){
-    return db.select().from(user).where(eq(user.id, id));
+// Read: Get by ID
+export async function getUserByID(id: number) {
+  return db.from('user').select('*').eq('id', id);
 }
 
-// r : get by food id
-export async function getUserByEmail(e: string){
-    return db.select().from(user).where(eq(user.email, e));
+// Read: Get by Email
+export async function getUserByEmail(e: string) {
+  return db.from('user').select('*').eq('email', e);
 }
 
-// u : update by hash
-export async function updateUserByID(id: number, updatedFields: Partial<typeof user.$inferInsert>) {
-    return db
-    .update(user)
-    .set(updatedFields)
-    .where(eq(user.id, id));
+// Update: By ID
+export async function updateUserByID(id: number, updatedFields: Partial<User>) {
+  return db.from('user').update(updatedFields).eq('id', id);
 }
 
-// u : update by hash
-export async function updateUserByEmail(email: string, updatedFields: Partial<typeof user.$inferInsert>) {
-    return db
-    .update(user)
-    .set(updatedFields)
-    .where(eq(user.email, email));
+// Update: By Email
+export async function updateUserByEmail(email: string, updatedFields: Partial<User>) {
+  return db.from('user').update(updatedFields).eq('email', email);
 }
 
-// d : delete by id
-export async function deleteUserById(id : number){
-    return db.delete(user).where(eq(user.id, id))
+// Delete: By ID
+export async function deleteUserById(id: number) {
+  return db.from('user').delete().eq('id', id);
 }
 
-// d : delete by id
-export async function deleteUserByEmail(email : string){
-    return db.delete(user).where(eq(user.email, email))
+// Delete: By Email
+export async function deleteUserByEmail(email: string) {
+  return db.from('user').delete().eq('email', email);
 }

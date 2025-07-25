@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { lives } from "../libs/schema.js";
 import type { Lives } from "../types/lives.type.js";
 import { eq } from "drizzle-orm";
@@ -11,49 +11,42 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id, delete by ethnic_id
  */
 
-// c
-export async function createLives(e:Lives){
-    return db.insert(lives).values(e);
+// Create
+export async function createLives(e: Lives) {
+  return db.from('lives').insert([e]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllLives() {
-    return db.select().from(lives);
+  return db.from('lives').select('*');
 }
 
-// r : get by food id
-export async function getLivesByTraditionalHouseID(id:number){
-    return db.select().from(lives).where(eq(lives.traditional_house_id, id));
+// Read: by traditional_house_id
+export async function getLivesByTraditionalHouseID(id: number) {
+  return db.from('lives').select('*').eq('traditional_house_id', id);
 }
 
-// r : get by food id
-export async function getLivesByEthnicID(ethnic_id:number){
-    return db.select().from(lives).where(eq(lives.ethnic_group_id, ethnic_id));
+// Read: by ethnic_group_id
+export async function getLivesByEthnicID(ethnic_id: number) {
+  return db.from('lives').select('*').eq('ethnic_group_id', ethnic_id);
 }
 
-// u : update by hash
-export async function updateLivesByEthnicID(id: number, updatedFields: Partial<typeof lives.$inferInsert>) {
-    return db
-    .update(lives)
-    .set(updatedFields)
-    .where(eq(lives.ethnic_group_id, id));
+// Update: by ethnic_group_id
+export async function updateLivesByEthnicID(id: number, updatedFields: Partial<Lives>) {
+  return db.from('lives').update(updatedFields).eq('ethnic_group_id', id);
 }
 
-// u : update by hash
-export async function updateLivesByTraditionalHouseID(id: number, updatedFields: Partial<typeof lives.$inferInsert>) {
-    return db
-    .update(lives)
-    .set(updatedFields)
-    .where(eq(lives.traditional_house_id, id));
+// Update: by traditional_house_id
+export async function updateLivesByTraditionalHouseID(id: number, updatedFields: Partial<Lives>) {
+  return db.from('lives').update(updatedFields).eq('traditional_house_id', id);
 }
 
-// d : delete by id
-export async function deleteLivesByTraditionalHouseId(id : number){
-    return db.delete(lives).where(eq(lives.traditional_house_id, id))
+// Delete: by traditional_house_id
+export async function deleteLivesByTraditionalHouseId(id: number) {
+  return db.from('lives').delete().eq('traditional_house_id', id);
 }
 
-// d : delete by id
-export async function deleteLivesByEthnicId(id : number){
-    return db.delete(lives).where(eq(lives.ethnic_group_id, id))
+// Delete: by ethnic_group_id
+export async function deleteLivesByEthnicId(id: number) {
+  return db.from('lives').delete().eq('ethnic_group_id', id);
 }
-

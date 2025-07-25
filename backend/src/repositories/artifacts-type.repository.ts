@@ -1,7 +1,5 @@
-import { db } from "../libs/drizzle.js";
-import { artifacts, artifacts_type } from "../libs/schema.js";
+import { db } from "../libs/supabase.js";
 import type { ArtifactType } from "../types/artifacts-type.type.js";
-import { eq } from "drizzle-orm";
 
 // crud 
 /**
@@ -12,30 +10,43 @@ import { eq } from "drizzle-orm";
  */
 
 // c
-export async function createArtifactType(ar: ArtifactType){
-    return db.insert(artifacts_type).values(ar);
+export async function createArtifactType(ar: ArtifactType) {
+  return await db
+    .from('artifacts_type')
+    .insert([ar]);
 }
 
 // r : get all
 export async function getAllArtifactType() {
-    return db.select().from(artifacts_type);
+  return await db
+    .from('artifacts_type')
+    .select('*');
 }
 
 // r : get by id
-export async function getArtifactTypeById(id:number){
-    return db.select().from(artifacts_type).where(eq(artifacts_type.id, id));
+export async function getArtifactTypeById(id: number) {
+  return await db
+    .from('artifacts_type')
+    .select('*')
+    .eq('id', id)
+    .single(); // return one object instead of array
 }
 
 // u : update by id
-export async function updateArtifactTypeByID(id: number, updatedFields: Partial<typeof artifacts_type.$inferInsert>) {
-  return db
-    .update(artifacts_type)
-    .set(updatedFields)
-    .where(eq(artifacts.id, id));
+export async function updateArtifactTypeByID(
+  id: number,
+  updatedFields: Partial<ArtifactType>
+) {
+  return await db
+    .from('artifacts_type')
+    .update(updatedFields)
+    .eq('id', id);
 }
 
 // d : delete by id
-export async function deleteArtifactTypeById(id : number){
-    return db.delete(artifacts_type).where(eq(artifacts.id, id))
+export async function deleteArtifactTypeById(id: number) {
+  return await db
+    .from('artifacts_type')
+    .delete()
+    .eq('id', id);
 }
-

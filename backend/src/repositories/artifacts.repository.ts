@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { artifacts } from "../libs/schema.js";
 import type { Artifact } from "../types/artifacts.type.js";
 import { eq } from "drizzle-orm";
@@ -11,41 +11,40 @@ import { eq } from "drizzle-orm";
  * d : delete by id
  */
 
-// c
-export async function createArtifacts(ar:Artifact){
-    return db.insert(artifacts).values(ar);
+// Create
+export async function createArtifacts(ar: Artifact) {
+  return db.from('artifacts').insert([ar]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllArtifacts() {
-    return db.select().from(artifacts);
+  return db.from('artifacts').select('*');
 }
 
-// r : get by hash
-export async function getArtifactsById(id:number){
-    return db.select().from(artifacts).where(eq(artifacts.id, id));
+// Read: get by ID
+export async function getArtifactsById(id: number) {
+  return db.from('artifacts').select('*').eq('id', id).single();
 }
 
-// r : get by hash
-export async function getArtifactsByHash(hash:string){
-    return db.select().from(artifacts).where(eq(artifacts.hash, hash));
+// Read: get by hash
+export async function getArtifactsByHash(hash: string) {
+  return db.from('artifacts').select('*').eq('hash', hash).maybeSingle();
 }
 
-// r : get b date created at
-export async function getArtifactByCreatedDate(date : Date){
-    return db.select().from(artifacts).where(eq(artifacts.createdAt, date))
+// Read: get by createdAt date
+export async function getArtifactByCreatedDate(date: Date) {
+  return db.from('artifacts').select('*').eq('createdAt', date.toISOString());
 }
 
-// u : update by hash
-export async function updateArtifactByHash(hash: string, updatedFields: Partial<typeof artifacts.$inferInsert>) {
-  return db
-    .update(artifacts)
-    .set(updatedFields)
-    .where(eq(artifacts.hash, hash));
+// Update: by hash
+export async function updateArtifactByHash(
+  hash: string,
+  updatedFields: Partial<Artifact>
+) {
+  return db.from('artifacts').update(updatedFields).eq('hash', hash);
 }
 
-// d : delete by id
-export async function deleteArtifactByHash(hash : string){
-    return db.delete(artifacts).where(eq(artifacts.hash, hash))
+// Delete: by hash
+export async function deleteArtifactByHash(hash: string) {
+  return db.from('artifacts').delete().eq('hash', hash);
 }
-

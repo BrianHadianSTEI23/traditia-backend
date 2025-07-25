@@ -1,4 +1,4 @@
-import { db } from "../libs/drizzle.js";
+import { db } from "../libs/supabase.js";
 import { region } from "../libs/schema.js";
 import type { Region } from "../types/region.type.js";
 import { eq } from "drizzle-orm";
@@ -11,35 +11,32 @@ import { eq } from "drizzle-orm";
  * d : delete by food_id
  */
 
-// c
-export async function createRegion(e:Region){
-    return db.insert(region).values(e);
+// Create
+export async function createRegion(e: Region) {
+  return db.from('region').insert([e]);
 }
 
-// r : get all
+// Read: get all
 export async function getAllRegion() {
-    return db.select().from(region);
+  return db.from('region').select('*');
 }
 
-// r : get by food id
-export async function getRegionByID(id:number){
-    return db.select().from(region).where(eq(region.id, id));
+// Read: get by ID
+export async function getRegionByID(id: number) {
+  return db.from('region').select('*').eq('id', id);
 }
 
-// r : get by food id
-export async function getRegionByName(name:string){
-    return db.select().from(region).where(eq(region.name, name));
+// Read: get by name
+export async function getRegionByName(name: string) {
+  return db.from('region').select('*').eq('name', name);
 }
 
-// u : update by hash
-export async function updateRegionByID(id: number, updatedFields: Partial<typeof region.$inferInsert>) {
-    return db
-    .update(region)
-    .set(updatedFields)
-    .where(eq(region.id, id));
+// Update: by ID
+export async function updateRegionByID(id: number, updatedFields: Partial<Region>) {
+  return db.from('region').update(updatedFields).eq('id', id);
 }
 
-// d : delete by id
-export async function deleteRegionById(id : number){
-    return db.delete(region).where(eq(region.id, id))
+// Delete: by ID
+export async function deleteRegionById(id: number) {
+  return db.from('region').delete().eq('id', id);
 }

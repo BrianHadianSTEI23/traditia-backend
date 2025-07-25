@@ -1,7 +1,7 @@
 import {
   createWear, getAllWear, getWearByEthnicID, getWearByTraditionalClothesID,
-  updateWearByEthnicID, updateWearByTraditionalClothesID, deleteArtifactByEthnicId,
-  deleteArtifactByTraditionalClothesId
+  updateWearByEthnicID, updateWearByTraditionalClothesID, deleteWearByEthnicId,
+  deleteWearByTraditionalClothesId
 } from "../repositories/wear.repository.js"
 import type { Context } from "hono"
 
@@ -54,7 +54,7 @@ export const updateByTraditionalClothesId = async (c: Context) => {
 export const deleteByTraditionalClothesId = async (c: Context) => {
   const traditionalClothesId = Number(c.req.param("traditionalClothesId"));
   const content = await getWearByTraditionalClothesID(traditionalClothesId);
-  await deleteArtifactByTraditionalClothesId(traditionalClothesId);
+  await deleteWearByTraditionalClothesId(traditionalClothesId);
   return c.json({ status: 200, body: content });
 };
 
@@ -62,6 +62,6 @@ export const deleteByTraditionalClothesId = async (c: Context) => {
 export const deleteByEthnicId = async (c: Context) => {
   const ethnicId = Number(c.req.param("ethnicId"));
   const content = await getWearByEthnicID(ethnicId);
-  await deleteArtifactByEthnicId(ethnicId);
+  await deleteWearByEthnicId(ethnicId);
   return c.json({ status: 200, body: content });
 };
